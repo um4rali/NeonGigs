@@ -122,10 +122,42 @@ npm start
 
 ---
 
-## 📜 License
-This project is released under the MIT License.
+### 🌟 **Love our project?** 
+
+<a href="https://github.com/um4rali/NeonGigs/stargazers">
+  <img src="https://img.shields.io/github/stars/um4rali/NeonGigs?style=for-the-badge&logo=github&color=ff2a6d" alt="GitHub Stars">
+</a>
+
+### 📬 **Get in Touch**
+
+<a href="mailto:umarali.n@somaiya.edu,vedant.ud@somaiya.edu,mahesh.vaviya@somaiya.edu?subject=🚀%20NeonGigs%20Inquiry&body=Hello%20NeonGigs%20Team!">
+  <img src="https://img.shields.io/badge/Contact_Developers-00ff9d?style=for-the-badge&logo=gmail&logoColor=white" alt="Contact Developers">
+</a>
+
+<a href="https://github.com/um4rali/NeonGigs/issues">
+  <img src="https://img.shields.io/badge/Report_Bug-05d9e8?style=for-the-badge&logo=github&logoColor=white" alt="Report Bug">
+</a>
+
+<a href="https://neongigs.vercel.app">
+  <img src="https://img.shields.io/badge/Live_Demo-d300c5?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo">
+</a>
+
+<br>
+
+
+
+</div>
 
 ---
 
-> _"Connecting Creativity with Opportunity."_ ✨
+<div align="center">
 
+
+
+<img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black" alt="React">
+<img src="https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white" alt="Node.js">
+<img src="https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white" alt="MongoDB">
+<img src="https://img.shields.io/badge/Express.js-000000?style=flat&logo=express&logoColor=white" alt="Express.js">
+<img src="https://img.shields.io/badge/Razorpay-00B9F1?style=flat&logo=razorpay&logoColor=white" alt="Razorpay">
+
+</div>
