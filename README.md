@@ -116,9 +116,9 @@ npm start
 
 | Name | Role |
 |------|------|
-| **Mahesh Vaviya - 16010123184** | Backend + Logic |
-| **Umar Ali Nasir Ali - 16010123198** | Frontend UI + UX + System Flow |
-| **Vedant Desai - 16010123205** | Database + Deployment |
+| **Mahesh Vaviya - 16010123184** | Backend Architect, Security, & Deployment |
+| **Umar Ali Nasir Ali - 16010123198** | Frontend UI/UX & Backend Support Logic |
+| **Vedant Desai - 16010123205** | Backend Marketplace Logic & Frontend Integration |
 
 ---
 
