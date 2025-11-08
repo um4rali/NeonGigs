@@ -1494,7 +1494,7 @@ const ChatInterface = ({ onClose }) => {
     const loadConversations = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:5000/api/chat/conversations', {
+            const response = await fetch('https://neongigs.onrender.com/api/chat/conversations', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1518,7 +1518,7 @@ const ChatInterface = ({ onClose }) => {
     const loadMessages = async (conversationId) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:5000/api/chat/conversations/${conversationId}/messages`, {
+            const response = await fetch(`https://neongigs.onrender.com/api/chat/conversations/${conversationId}/messages`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1538,7 +1538,7 @@ const ChatInterface = ({ onClose }) => {
     const createConversation = async (userId) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:5000/api/chat/conversations', {
+            const response = await fetch('https://neongigs.onrender.com/api/chat/conversations', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1574,7 +1574,7 @@ const ChatInterface = ({ onClose }) => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:5000/api/users/search?q=${encodeURIComponent(query)}`, {
+            const response = await fetch(`https://neongigs.onrender.com/api/users/search?q=${encodeURIComponent(query)}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1619,7 +1619,7 @@ const ChatInterface = ({ onClose }) => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:5000/api/chat/conversations/${selectedConversation.id}/messages`, {
+            const response = await fetch(`https://neongigs.onrender.com/api/chat/conversations/${selectedConversation.id}/messages`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
