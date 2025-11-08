@@ -118,7 +118,7 @@ const handleSubmit = async (e) => {
     // Different endpoints for freelancers and buyers
     if (formData.userType === 'freelancer') {
       // Register as freelancer
-      const response = await fetch('http://localhost:5000/api/freelancers/register', {
+      const response = await fetch('https://neongigs.onrender.com/api/freelancers/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -168,7 +168,7 @@ const handleSubmit = async (e) => {
 
     } else {
       // Register as buyer (existing flow)
-      const response = await fetch('http://localhost:5000/api/auth/register', {
+      const response = await fetch('https://neongigs.onrender.com/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
