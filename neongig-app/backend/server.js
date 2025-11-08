@@ -23,9 +23,9 @@ import paymentRoutes from './routes/payment.js';
 
 const app = express();
 
-// CORS Middleware
 app.use(cors({
-  origin: 'https://neongigs.vercel.app',   // <-- your final Vercel URL
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
 
