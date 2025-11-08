@@ -25,9 +25,10 @@ const app = express();
 
 // CORS Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  origin: 'https://neongigs.vercel.app',   // <-- your final Vercel URL
   credentials: true
 }));
+
 
 app.use(express.json());
 
