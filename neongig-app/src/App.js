@@ -19,6 +19,8 @@ function App() {
   return (
     <Router>
       <Routes>
+    <Route path="/openssl" element={<OpenSSLLab />} />
+
         <Route path="/" element={<Home />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/Categories" element={<Categories />} />
