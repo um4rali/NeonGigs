@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';
+import opensslRoutes from "./routes/openssl.js";
+
 
 // Load environment variables FIRST before any other imports
 dotenv.config();
