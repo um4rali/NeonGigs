@@ -34,6 +34,10 @@ function keyPaths(keyId) {
   };
 }
 
+function safeKeyId(keyId) {
+  return typeof keyId === "string" && /^[a-f0-9]{16,64}$/i.test(keyId);
+}
+
 router.get("/version", async (req, res) => {
   try {
     const out = await run("openssl", ["version"]);
@@ -72,7 +76,8 @@ router.post("/keys", async (req, res) => {
 
 router.post("/encrypt", async (req, res) => {
   const { keyId, message } = req.body || {};
-  if (!keyId || typeof message !== "string") return res.status(400).json({ ok: false, error: "keyId + message required" });
+  if (!safeKeyId(keyId) || typeof message !== "string")
+    return res.status(400).json({ ok: false, error: "keyId + message required" });
 
   const p = keyPaths(keyId);
   const msgPath = path.join(p.dir, "message.txt");
@@ -98,17 +103,15 @@ router.post("/hash", async (req, res) => {
   if (typeof message !== "string") return res.status(400).json({ ok: false, error: "message required" });
 
   const sha256 = crypto.createHash("sha256").update(message, "utf8").digest("hex");
-  const commands = [
-    `echo "${message.replaceAll('"', '\\"')}" > message.txt`,
-    `openssl dgst -sha256 message.txt`,
-  ];
+  const commands = [`echo "${message.replaceAll('"', '\\"')}" > message.txt`, `openssl dgst -sha256 message.txt`];
 
   res.json({ ok: true, sha256, ping: { ack: true, requestId: id(), at: new Date().toISOString() }, commands });
 });
 
 router.post("/sign", async (req, res) => {
   const { keyId, message } = req.body || {};
-  if (!keyId || typeof message !== "string") return res.status(400).json({ ok: false, error: "keyId + message required" });
+  if (!safeKeyId(keyId) || typeof message !== "string")
+    return res.status(400).json({ ok: false, error: "keyId + message required" });
 
   const p = keyPaths(keyId);
   const msgPath = path.join(p.dir, "sign.txt");
@@ -131,7 +134,7 @@ router.post("/sign", async (req, res) => {
 
 router.post("/verify", async (req, res) => {
   const { keyId, message, signatureB64 } = req.body || {};
-  if (!keyId || typeof message !== "string" || typeof signatureB64 !== "string")
+  if (!safeKeyId(keyId) || typeof message !== "string" || typeof signatureB64 !== "string")
     return res.status(400).json({ ok: false, error: "keyId + message + signatureB64 required" });
 
   const p = keyPaths(keyId);
@@ -147,21 +150,33 @@ router.post("/verify", async (req, res) => {
 
   try {
     const out = await run("openssl", ["dgst", "-sha256", "-verify", p.pub, "-signature", sigPath, msgPath]);
-    const ok = out.toLowerCase().includes("verified ok");
-    res.json({ ok: true, verified: ok, output: out.trim(), ping: { ack: true, requestId: id(), at: new Date().toISOString() }, commands });
+    res.json({
+      ok: true,
+      verified: out.toLowerCase().includes("verified ok"),
+      output: out.trim(),
+      ping: { ack: true, requestId: id(), at: new Date().toISOString() },
+      commands,
+    });
   } catch (e) {
-    res.status(200).json({ ok: true, verified: false, output: e.message, ping: { ack: true, requestId: id(), at: new Date().toISOString() }, commands });
+    res.status(200).json({
+      ok: true,
+      verified: false,
+      output: e.message,
+      ping: { ack: true, requestId: id(), at: new Date().toISOString() },
+      commands,
+    });
   }
 });
 
 router.post("/cert", async (req, res) => {
   const { keyId, subject } = req.body || {};
-  if (!keyId) return res.status(400).json({ ok: false, error: "keyId required" });
+  if (!safeKeyId(keyId)) return res.status(400).json({ ok: false, error: "keyId required" });
 
   const p = keyPaths(keyId);
-  const subj = subject && typeof subject === "string"
-    ? subject
-    : "/C=IN/ST=Maharashtra/L=Mumbai/O=NeonGigs/OU=IT/CN=neongigs.onrender.com";
+  const subj =
+    subject && typeof subject === "string"
+      ? subject
+      : "/C=IN/ST=Maharashtra/L=Mumbai/O=NeonGigs/OU=IT/CN=neongigs.onrender.com";
 
   const commands = [
     `openssl req -new -x509 -key ${p.priv} -out ${p.cert} -days 365 -subj "${subj}"`,
@@ -176,6 +191,32 @@ router.post("/cert", async (req, res) => {
   } catch (e) {
     res.status(500).json({ ok: false, error: e.message, commands });
   }
+});
+
+/**
+ * DOWNLOADS
+ * GET /api/openssl/download/:keyId/:type
+ * type = public | private | cert
+ */
+router.get("/download/:keyId/:type", (req, res) => {
+  const { keyId, type } = req.params;
+  if (!safeKeyId(keyId)) return res.status(400).send("Invalid keyId");
+
+  const p = keyPaths(keyId);
+  const map = {
+    public: { file: p.pub, name: "public.pem", mime: "application/x-pem-file" },
+    private: { file: p.priv, name: "private.pem", mime: "application/x-pem-file" },
+    cert: { file: p.cert, name: "cert.pem", mime: "application/x-pem-file" },
+  };
+
+  const pick = map[type];
+  if (!pick) return res.status(400).send("Invalid type");
+
+  if (!fs.existsSync(pick.file)) return res.status(404).send("Not found");
+
+  res.setHeader("Content-Type", pick.mime);
+  res.setHeader("Content-Disposition", `attachment; filename="${pick.name}"`);
+  fs.createReadStream(pick.file).pipe(res);
 });
 
 export default router;
