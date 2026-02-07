@@ -26,10 +26,11 @@ import paymentRoutes from './routes/payment.js';
 const app = express();
 
 app.use(cors({
-  origin: "*",
+  origin: ["https://neongigs.vercel.app", "https://neon-gigs.vercel.app"],
   methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
+  credentials: false
 }));
+
 
 
 app.use(express.json());
@@ -544,6 +545,8 @@ app.use('/api/freelancers', freelancerRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/payment', paymentRoutes);
+app.use("/api/openssl", opensslRoutes);
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
