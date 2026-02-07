@@ -12,6 +12,8 @@ import SignIn from './pages/SignIn';
 import FreelancerProfile from './pages/FreelancerProfile';
 import AdminDashboard from './pages/AdminDashboard';
 import GigDetails from './pages/GigDetails';
+import OpenSSLLab from "./pages/OpenSSLLab";
+
 
 function App() {
   return (
